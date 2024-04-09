@@ -1,18 +1,20 @@
+require("dotenv").config();
 const express = require('express');
 const mongoose = require('mongoose');
 const productRouter = require("./routes/product.route.js");
+const userRouter = require("./routes/user.route.js");
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
 
 app.use('/api/product', productRouter);
-
-mongoose.connect("mongodb+srv://shubhameglobal20:JzsWu2FC1v2qc0Q5@nodeapi.e6v5tml.mongodb.net/Node-API?retryWrites=true&w=majority&appName=NodeApi").
+app.use('/api/user', userRouter);
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@nodeapi.e6v5tml.mongodb.net/Node-API?retryWrites=true&w=majority&appName=${process.env.DB_NAME}`).
 then((success) => {
     console.log('connection successfully connected');
-    app.listen(3000, () => {
-        console.log('server is running on port 3000');
+    app.listen(process.env.PORT, () => {
+        console.log('server is running on port',process.env.PORT);
     });    
 })    
 .catch((error) => {

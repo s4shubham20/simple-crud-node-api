@@ -1,8 +1,12 @@
 const mongoose = require('mongoose');
 
-const ProductSchema = mongoose.Schema({
+const {
+    Schema
+} = mongoose;
+const ProductSchema = Schema({
     name: {
         type: String,
+        unique: [true, "Product name should be unique!"],
         required: [true, "Please enter product name here!"],
     },
 
@@ -20,7 +24,13 @@ const ProductSchema = mongoose.Schema({
     image: {
         type: String,
         required: false,
+    },
+    user_id: {
+        type: mongoose.Types.ObjectId,
+        ref: "User",
+        required: [true, "User ID required!"]
     }
+
 }, {
     timestamps: true
 });
